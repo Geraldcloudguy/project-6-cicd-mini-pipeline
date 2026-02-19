@@ -1,0 +1,33 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js (optional, for future builds)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Validate HTML
+        run: |
+          echo "Checking app/index.html exists..."
+          if [ ! -f app/index.html ]; then
+            echo "Error: index.html not found!"
+            exit 1
+          fi
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./app
