@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      # Step 1: Checkout your repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Validate HTML exists
       - name: Validate HTML
         run: |
           echo "Checking app/index.html exists..."
@@ -21,11 +23,12 @@ jobs:
             exit 1
           fi
 
+      # Step 3: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-  uses: peaceiris/actions-gh-pages@v3
-  with:
-    personal_token: ${{ secrets.ACTIONS_PAT }}
-    publish_dir: ./public
-    keep_files: true
-    force_orphan: true
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.ACTIONS_PAT }}
+          publish_dir: ./public
+          keep_files: true
+          force_orphan: true
 
